@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<FlowPane alignment="TOP_CENTER" columnHalignment="CENTER" hgap="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="724.0" prefWidth="623.0" vgap="20.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AnadirAnimalController">
+   <children>
+      <Label text="DATOS DEL ANIMAL">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <GridPane hgap="20.0" prefHeight="651.0" prefWidth="584.0">
+        <columnConstraints>
+          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="151.0" minWidth="10.0" prefWidth="118.1822388719771" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="458.18348429650223" minWidth="442.72889445275223" percentWidth="0.0" prefWidth="446.3652835977016" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="51.818255641646196" minHeight="10.0" prefHeight="46.81829644450049" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="106.36390803117257" minHeight="10.0" prefHeight="47.454687512805734" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="145.09135744828683" minHeight="10.0" prefHeight="39.818298355850914" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="172.00054476518136" minHeight="10.0" prefHeight="30.727355989045577" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="186.2733337666462" minHeight="10.0" prefHeight="36.90924687099192" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="206.09160158891183" minHeight="10.0" prefHeight="40.54561160267923" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="209.6371032978962" minHeight="10.0" prefHeight="33.181964157748894" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="187.45526123046875" minHeight="0.0" prefHeight="45.9092712722487" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="301.0920351073968" minHeight="10.0" prefHeight="133.36408095140996" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="232.72819225232274" minHeight="10.0" prefHeight="186.09165663980582" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="190.09160158891177" minHeight="10.0" prefHeight="40.09112560433323" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Código:" />
+            <Label text="Nombre:" GridPane.rowIndex="1" />
+            <Label text="Raza:" GridPane.rowIndex="3" />
+            <ComboBox fx:id="cbEspecie" prefHeight="25.0" prefWidth="465.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="Especie:" GridPane.rowIndex="2" />
+            <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" style="-fx-hgap: 30;" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="10" GridPane.valignment="CENTER">
+               <children>
+                  <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#guardar" text="Guardar" />
+                  <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
+               </children>
+            </FlowPane>
+            <TextField fx:id="tfCodigo" prefHeight="25.0" prefWidth="355.0" GridPane.columnIndex="1" />
+            <TextField fx:id="tfNombre" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="tfRaza" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ComboBox fx:id="cbSexo" prefHeight="25.0" prefWidth="141.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label text="Sexo:" GridPane.rowIndex="4" />
+            <TextField fx:id="tfEdad" maxWidth="-Infinity" prefHeight="25.0" prefWidth="142.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label text="Edad:" GridPane.rowIndex="5" />
+            <TextField fx:id="tfPeso" maxWidth="-Infinity" prefHeight="25.0" prefWidth="142.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Label text="Peso:" GridPane.rowIndex="6" />
+            <DatePicker fx:id="dpPrimeraConsulta" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <Label text="Primera consuta:" GridPane.rowIndex="7" />
+            <TextArea fx:id="taObservaciones" prefHeight="204.0" prefWidth="447.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <Label text="Observaciones:" GridPane.rowIndex="8" />
+            <Label text="Foto:" GridPane.rowIndex="9" />
+            <FlowPane alignment="TOP_CENTER" columnHalignment="CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0" rowValignment="TOP" GridPane.columnIndex="1" GridPane.rowIndex="9">
+               <children>
+                  <ImageView fx:id="tvImagen" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <Button fx:id="btnImagen" mnemonicParsing="false" onAction="#seleccionarImagen" text="Seleccionar Imagen" />
+               </children>
+            </FlowPane>
+         </children>
+      </GridPane>
+   </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</FlowPane>
