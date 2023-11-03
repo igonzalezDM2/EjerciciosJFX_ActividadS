@@ -19,12 +19,25 @@ import javafx.stage.Stage;
 import model.Especie;
 import utilities.Utilidades;
 
+/**
+ * Controlador para modificar especies.
+ */
 public class ModificarEspecieController implements Initializable{
 	
+	/**
+	 * Controlador principal de animales.
+	 */
 	AnimalesController controladorPrincipal;
 	
+	/**
+	 * Variable para determinar si se va a borrar una especie.
+	 */
 	private boolean borrar;
 	
+	/**
+	 * Método para establecer si se va a borrar una especie.
+	 * @param borrar Valor booleano para determinar si se va a borrar una especie.
+	 */
 	public void setBorrar(boolean borrar) {
 		if (this.borrar = borrar) {
 			btnModificar.setText("Borrar");
@@ -35,37 +48,71 @@ public class ModificarEspecieController implements Initializable{
 		}
 	}
 	
+	/**
+	 * Método para establecer el controlador principal.
+	 * @param controladorPrincipal Controlador principal de animales.
+	 * @return Retorna la instancia de este controlador.
+	 */
 	public ModificarEspecieController setControladorPrincipal(AnimalesController controladorPrincipal) {
 		this.controladorPrincipal = controladorPrincipal;
 		return this;
 	}
 
+    /**
+     * Botón para cancelar la acción.
+     */
     @FXML
     private Button btnCancelar;
 
+    /**
+     * Botón para modificar la especie.
+     */
     @FXML
     private Button btnModificar;
 
+    /**
+     * ComboBox para seleccionar la especie a modificar.
+     */
     @FXML
     private ComboBox<Especie> cbEspecie;
 
+    /**
+     * Etiqueta para el nuevo nombre de la especie.
+     */
     @FXML
     private Label lblNuevoNombre;
 
+    /**
+     * Campo de texto para ingresar el nuevo nombre de la especie.
+     */
     @FXML
     private TextField tfNuevoNombre;
     
+    /**
+     * GridPane para la interfaz de usuario.
+     */
     @FXML
     private GridPane grid;
     
+    /**
+     * Etiqueta para el título de la interfaz de usuario.
+     */
     @FXML
     private Label titulo;
 
+    /**
+     * Método para cancelar la acción.
+     * @param event Evento de acción.
+     */
     @FXML
     void cancelar(ActionEvent event) {
     	((Stage)((Node)event.getSource()).getScene().getWindow()).close();
     }
 
+    /**
+     * Método para modificar la especie.
+     * @param event Evento de acción.
+     */
     @FXML
     void modificar(ActionEvent event) {
     	Especie especie = cbEspecie.getSelectionModel().getSelectedItem();
@@ -89,6 +136,11 @@ public class ModificarEspecieController implements Initializable{
     	}
     }
 
+	/**
+	 * Método para inicializar la interfaz de usuario.
+	 * @param location Ubicación de la interfaz de usuario.
+	 * @param resources Recursos para la interfaz de usuario.
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		try {

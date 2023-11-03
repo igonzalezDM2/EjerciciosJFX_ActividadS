@@ -8,11 +8,21 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 
+/**
+ * Clase principal que extiende de Application.
+ */
 public class Main extends Application {
 	
+	/**
+	 * Método de inicio de la aplicación.
+	 * @param primaryStage Escenario principal de la aplicación.
+	 */
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			/**
+			 * Carga la vista de la aplicación.
+			 */
 			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("/fxml/Animales.fxml"));
 			Scene scene = new Scene(root);
 			primaryStage.setTitle("CLÍNICA VETERINARIA PACO");
@@ -20,10 +30,17 @@ public class Main extends Application {
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
+			/**
+			 * En caso de error, se cierra la aplicación.
+			 */
 			Platform.exit();
 		}
 	}
 	
+	/**
+	 * Método principal de la aplicación.
+	 * @param args Argumentos de la línea de comandos.
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}

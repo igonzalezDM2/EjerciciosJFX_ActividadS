@@ -35,6 +35,9 @@ import model.Animal;
 import model.Especie;
 import utilities.Utilidades;
 
+/**
+ * Controlador para añadir animales.
+ */
 public class AnadirAnimalController implements Initializable {
 	
 	private AnimalesController controladorPrincipal;
@@ -42,61 +45,118 @@ public class AnadirAnimalController implements Initializable {
 	private Animal seleccionado;
 	private byte[] imagenSeleccionada;
 
+    /**
+     * Botón para cancelar la operación.
+     */
     @FXML
     private Button btnCancelar;
 
+    /**
+     * Botón para guardar los cambios.
+     */
     @FXML
     private Button btnGuardar;
 
+    /**
+     * Botón para seleccionar una imagen.
+     */
     @FXML
     private Button btnImagen;
 
+    /**
+     * ComboBox para seleccionar la especie del animal.
+     */
     @FXML
     private ComboBox<Especie> cbEspecie;
 
+    /**
+     * ComboBox para seleccionar el sexo del animal.
+     */
     @FXML
     private ComboBox<Sexo> cbSexo;
 
+    /**
+     * DatePicker para seleccionar la fecha de la primera consulta.
+     */
     @FXML
     private DatePicker dpPrimeraConsulta;
 
+    /**
+     * TextArea para introducir las observaciones.
+     */
     @FXML
     private TextArea taObservaciones;
 
+    /**
+     * TextField para introducir el código del animal.
+     */
     @FXML
     private TextField tfCodigo;
 
+    /**
+     * TextField para introducir la edad del animal.
+     */
     @FXML
     private TextField tfEdad;
 
+    /**
+     * TextField para introducir el nombre del animal.
+     */
     @FXML
     private TextField tfNombre;
 
+    /**
+     * TextField para introducir el peso del animal.
+     */
     @FXML
     private TextField tfPeso;
 
+    /**
+     * TextField para introducir la raza del animal.
+     */
     @FXML
     private TextField tfRaza;
 
+    /**
+     * ImageView para mostrar la imagen del animal.
+     */
     @FXML
     private ImageView tvImagen;
     
+    /**
+     * Método para establecer el controlador principal.
+     * @param controladorPrincipal El controlador principal.
+     * @return El controlador de añadir animal.
+     */
     public AnadirAnimalController setControladorPrincipal(AnimalesController controladorPrincipal) {
     	this.controladorPrincipal = controladorPrincipal;
     	return this;
     }
     
+    /**
+     * Método para establecer el animal seleccionado.
+     * @param animalSeleccionado El animal seleccionado.
+     * @return El controlador de añadir animal.
+     */
     public AnadirAnimalController setSeleccionado(Animal animalSeleccionado) {
     	this.seleccionado = animalSeleccionado;
     	rellenarEditor();
     	return this;
     }
 
+    /**
+     * Método para cancelar la operación.
+     * @param event El evento de acción.
+     */
     @FXML
     void cancelar(ActionEvent event) {
     	((Stage)((Node) event.getSource()).getScene().getWindow()).close();
     }
 
+    /**
+     * Método para guardar los cambios.
+     * @param event El evento de acción.
+     */
     @FXML
     void guardar(ActionEvent event) {
     	try {
@@ -122,6 +182,10 @@ public class AnadirAnimalController implements Initializable {
 
     }
     
+    /**
+     * Método para seleccionar una imagen.
+     * @param event El evento de acción.
+     */
     @FXML
     void seleccionarImagen(ActionEvent event) {
     	FileChooser fc = new FileChooser();
@@ -138,6 +202,10 @@ public class AnadirAnimalController implements Initializable {
     	}
     }
     
+    /**
+     * Método para comprobar los datos.
+     * @throws AnimalesException Si los datos no son válidos.
+     */
     private void comprobarDatos() throws AnimalesException {
     	Utilidades.checkCampoStrNotNull(tfCodigo);
     	Utilidades.checkCampoStrNotNull(tfNombre);
@@ -145,6 +213,11 @@ public class AnadirAnimalController implements Initializable {
     	Utilidades.checkCampoDouble(tfPeso);
     }
     
+    /**
+     * Método para construir un animal.
+     * @return El animal construido.
+     * @throws AnimalesException Si los datos no son válidos.
+     */
     private Animal construirAnimal() throws AnimalesException {
     	return new Animal()
     			.setCodigo(tfCodigo.getText())
@@ -159,6 +232,9 @@ public class AnadirAnimalController implements Initializable {
     			.setFoto(imagenSeleccionada);
     }
     
+    /**
+     * Método para rellenar el editor.
+     */
     private void rellenarEditor() {
     	try {
     		if (seleccionado != null) {
@@ -185,6 +261,11 @@ public class AnadirAnimalController implements Initializable {
     	}
     }
 
+    /**
+     * Método para inicializar el controlador.
+     * @param location La ubicación para la inicialización.
+     * @param resources Los recursos para la inicialización.
+     */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		try {

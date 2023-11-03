@@ -12,8 +12,18 @@ import excepciones.AnimalesException;
 import model.Especie;
 
 
+/**
+ * Clase DAO para las especies.
+ */
 public class DAOEspecies extends DAOBase{
 	
+	/**
+	 * Añade una especie a la base de datos.
+	 * 
+	 * @param especie la especie a añadir
+	 * @throws AnimalesException si ocurre un error al añadir la especie
+	 * @throws SQLException si ocurre un error de SQL
+	 */
 	public static void anadirEspecie(Especie especie) throws AnimalesException, SQLException {
 		if (especie != null) {
 			String sql = "INSERT INTO especie(nombre) VALUES (?)";
@@ -38,6 +48,13 @@ public class DAOEspecies extends DAOBase{
 		}
 	}
 	
+	/**
+	 * Modifica una especie en la base de datos.
+	 * 
+	 * @param especie la especie a modificar
+	 * @throws AnimalesException si ocurre un error al modificar la especie
+	 * @throws SQLException si ocurre un error de SQL
+	 */
 	public static void modificarEspecie(Especie especie) throws AnimalesException, SQLException {
 		if (especie != null && especie.getId() > 0) {
 			String sql = "UPDATE especie SET nombre = ? WHERE id = ?";
@@ -59,6 +76,13 @@ public class DAOEspecies extends DAOBase{
 		}
 	}
 	
+	/**
+	 * Borra una especie de la base de datos.
+	 * 
+	 * @param especie la especie a borrar
+	 * @throws AnimalesException si ocurre un error al borrar la especie
+	 * @throws SQLException si ocurre un error de SQL
+	 */
 	public static void borrarEspecie(Especie especie) throws AnimalesException, SQLException {
 		if (especie != null && especie.getId() > 0) {
 			String sql = "DELETE FROM especie WHERE id = ?";
@@ -79,6 +103,12 @@ public class DAOEspecies extends DAOBase{
 		}
 	}
 	
+	/**
+	 * Obtiene una lista de especies de la base de datos.
+	 * 
+	 * @return una lista de especies
+	 * @throws AnimalesException si ocurre un error al obtener las especies
+	 */
 	public static List<Especie> getEspecies() throws AnimalesException {
 		List<Especie> lista = new LinkedList<>();
 		String sql = "SELECT * FROM especie";

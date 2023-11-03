@@ -34,64 +34,124 @@ import javafx.stage.Stage;
 import model.Animal;
 import model.Especie;
 
+/**
+ * Controlador para la gestión de animales.
+ */
 public class AnimalesController implements Initializable {
 
+    /**
+     * Elemento de menú para añadir especie.
+     */
     @FXML
     private MenuItem miAnadirEspecie;
 
+    /**
+     * Elemento de menú para borrar especie.
+     */
     @FXML
     private MenuItem miBorrarEspecie;
 
+    /**
+     * Elemento de menú para editar especie.
+     */
     @FXML
     private MenuItem miEditarEspecie;
 
+    /**
+     * Columna de código en la tabla de animales.
+     */
     @FXML
     private TableColumn<Animal, String> tcCodigo;
 
+    /**
+     * Columna de edad en la tabla de animales.
+     */
     @FXML
     private TableColumn<Animal, Integer> tcEdad;
 
+    /**
+     * Columna de especie en la tabla de animales.
+     */
     @FXML
     private TableColumn<Animal, Especie> tcEspecie;
 
+    /**
+     * Columna de nombre en la tabla de animales.
+     */
     @FXML
     private TableColumn<Animal, String> tcNombre;
 
+    /**
+     * Columna de peso en la tabla de animales.
+     */
     @FXML
     private TableColumn<Animal, Double> tcPeso;
 
+    /**
+     * Columna de raza en la tabla de animales.
+     */
     @FXML
     private TableColumn<Animal, String> tcRaza;
 
+    /**
+     * Columna de sexo en la tabla de animales.
+     */
     @FXML
     private TableColumn<Animal, Sexo> tcSexo;
 
+    /**
+     * Campo de texto para la búsqueda de animales.
+     */
     @FXML
     private TextField tfBusqueda;
 
+    /**
+     * Tabla de visualización de animales.
+     */
     @FXML
     private TableView<Animal> tvAnimales;
 
+    /**
+     * Método para añadir una especie.
+     * @param event Evento de acción.
+     */
     @FXML
     void anadirEspecie(ActionEvent event) {
     	abrirAnadidorDeEspecie();
     }
 
+    /**
+     * Método para borrar una especie.
+     * @param event Evento de acción.
+     */
     @FXML
     void borrarEspecie(ActionEvent event) {
     	abrirEditorEspecie(true);
     }
 
+    /**
+     * Método para buscar animales.
+     * @param event Evento de acción.
+     */
     @FXML
     void buscar(KeyEvent event) {
     	filtrarFilas();
     }
 
+    /**
+     * Método para editar una especie.
+     * @param event Evento de acción.
+     */
     @FXML
     void editarEspecie(ActionEvent event) {
     	abrirEditorEspecie();
     }
     
+    /**
+     * Método para inicializar el controlador.
+     * @param location Ubicación de los recursos.
+     * @param resources Recursos.
+     */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		tcCodigo.setCellValueFactory(new PropertyValueFactory<Animal, String>("codigo"));
@@ -156,6 +216,9 @@ public class AnimalesController implements Initializable {
 		
 	}
 	
+    /**
+     * Método para filtrar las filas de la tabla de animales.
+     */
 	protected void filtrarFilas() {
 		String busqueda = tfBusqueda.getText() != null ? tfBusqueda.getText().toLowerCase() : "";
 		tvAnimales.getItems().clear();
@@ -167,9 +230,17 @@ public class AnimalesController implements Initializable {
 		}
 	}
 
+    /**
+     * Método para abrir el editor de animales.
+     */
 	private void abrirEditor() {
 		abrirEditor(null);
 	}
+	
+    /**
+     * Método para abrir el editor de animales con un animal seleccionado.
+     * @param seleccionado Animal seleccionado.
+     */
 	private void abrirEditor(Animal seleccionado) {
 		FlowPane root;
 		try {
@@ -196,6 +267,9 @@ public class AnimalesController implements Initializable {
 		}
 	}
 	
+    /**
+     * Método para abrir el añadidor de especies.
+     */
 	private void abrirAnadidorDeEspecie() {
 		FlowPane root;
 		try {
@@ -213,10 +287,17 @@ public class AnimalesController implements Initializable {
 		}
 	}
 	
+    /**
+     * Método para abrir el editor de especies.
+     */
 	private void abrirEditorEspecie() {
 		abrirEditorEspecie(false);
 	}
 	
+    /**
+     * Método para abrir el editor de especies con opción de borrar.
+     * @param borrar Indica si se va a borrar la especie.
+     */
 	private void abrirEditorEspecie(boolean borrar) {
 		FlowPane root;
 		try {
