@@ -21,6 +21,8 @@ import utilities.Utilidades;
 
 public class ModificarEspecieController implements Initializable{
 	
+	AnimalesController controladorPrincipal;
+	
 	private boolean borrar;
 	
 	public void setBorrar(boolean borrar) {
@@ -31,6 +33,11 @@ public class ModificarEspecieController implements Initializable{
 			grid.getRowConstraints().remove(1);
 			titulo.setText("BORRAR ESPECIE");
 		}
+	}
+	
+	public ModificarEspecieController setControladorPrincipal(AnimalesController controladorPrincipal) {
+		this.controladorPrincipal = controladorPrincipal;
+		return this;
 	}
 
     @FXML
@@ -73,6 +80,9 @@ public class ModificarEspecieController implements Initializable{
 	    		} else {
 	    			Utilidades.mostrarInfo("No ha puesto un nombre válido");	    			
 	    		}
+	    		controladorPrincipal.filtrarFilas();
+	    		//PARA SALIR
+	    		cancelar(event);
 	    	}
     	} catch (AnimalesException | SQLException e) {
     		Utilidades.lanzarError(e);

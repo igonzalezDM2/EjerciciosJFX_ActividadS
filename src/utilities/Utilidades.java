@@ -1,5 +1,7 @@
 package utilities;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,11 +14,11 @@ import java.util.regex.Pattern;
 import enums.Sexo;
 import excepciones.AnimalesException;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.control.Alert.AlertType;
 import model.Animal;
 import model.Especie;
 
@@ -30,19 +32,19 @@ public class Utilidades {
 		try {
 			return new Animal()
 					.setCodigo(rs.getString("codigo"))
-					.setNombre(rs.getString("nombre"))
+					.setNombre(rs.getString("nombre_animal"))
 					.setEspecie(new Especie()
 							.setId(rs.getInt("id_especie"))
-							.setNombre(rs.getString("especie")))
+							.setNombre(rs.getString("nombre_especie")))
 					.setRaza(rs.getString("raza"))
 					.setSexo(Sexo.getByValor(rs.getString("sexo")))
 					.setEdad(rs.getInt("edad"))
 					.setPeso(rs.getDouble("peso"))
 					.setObservaciones(rs.getString("observaciones"))
 					.setPrimeraConsulta(rs.getDate("primera_consulta") != null ? new Date(rs.getDate("primera_consulta").getTime()) : null)
-					.setFoto(rs.getBinaryStream("foto"));
+					.setFoto(rs.getBinaryStream("foto").readAllBytes());
 			
-		} catch (SQLException e) {
+		} catch (SQLException | IOException e) {
 			throw new AnimalesException(e);
 		}
 	}
@@ -96,9 +98,13 @@ public class Utilidades {
 		return null;
 	}
 	
-	public static Image inputStream2Image(InputStream is) {
-		if (is != null) {
-			return new Image(is);
+	public static Image byte2Image(byte[] bytes) throws AnimalesException {
+		if (bytes != null) {
+			try (InputStream is = new ByteArrayInputStream(bytes)) {				
+				return new Image(is);
+			} catch (IOException e) {
+				throw new AnimalesException(e);
+			}
 		}
 		return null;
 	}

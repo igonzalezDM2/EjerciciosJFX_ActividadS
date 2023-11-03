@@ -1,15 +1,14 @@
 package controller;
 
+import static utilities.Utilidades.byte2Image;
 import static utilities.Utilidades.date2Local;
 import static utilities.Utilidades.emptyIfNull;
-import static utilities.Utilidades.inputStream2Image;
 import static utilities.Utilidades.lanzarError;
 import static utilities.Utilidades.num2str;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -41,7 +40,7 @@ public class AnadirAnimalController implements Initializable {
 	private AnimalesController controladorPrincipal;
 	
 	private Animal seleccionado;
-	private InputStream imagenSeleccionada;
+	private byte[] imagenSeleccionada;
 
     @FXML
     private Button btnCancelar;
@@ -103,10 +102,14 @@ public class AnadirAnimalController implements Initializable {
     	try {
 			comprobarDatos();
 			Animal animal = construirAnimal();
-			if (this.seleccionado != null) {
-				DAOAnimales.modificarAnimal(animal);
-			} else {				
-				DAOAnimales.anadirAnimal(animal);
+			try {
+				if (this.seleccionado != null) {
+					DAOAnimales.modificarAnimal(animal);
+				} else {				
+						DAOAnimales.anadirAnimal(animal);
+				}
+			} catch (IOException e) {
+				lanzarError(e);
 			}
 			
 			controladorPrincipal.filtrarFilas();
@@ -125,11 +128,11 @@ public class AnadirAnimalController implements Initializable {
     	fc.getExtensionFilters().add(new ExtensionFilter("Imágenes JPG y PNG", Arrays.asList("*.jpg", "*.png")));
     	File fichero = fc.showOpenDialog(((Node)event.getSource()).getScene().getWindow());
     	if (fichero != null) {
-    		try {
-				FileInputStream fis = new FileInputStream(fichero);
-				this.imagenSeleccionada = fis;
-				tvImagen.setImage(inputStream2Image(fis));
-			} catch (FileNotFoundException e) {
+    		try (FileInputStream fis = new FileInputStream(fichero)) {
+				
+				this.imagenSeleccionada = fis.readAllBytes();
+				tvImagen.setImage(byte2Image(this.imagenSeleccionada));
+			} catch (IOException | AnimalesException e) {
 				lanzarError(e);
 			}
     	}
@@ -157,25 +160,29 @@ public class AnadirAnimalController implements Initializable {
     }
     
     private void rellenarEditor() {
-		if (seleccionado != null) {
-			cbEspecie.getSelectionModel().select(seleccionado.getEspecie());
-			cbSexo.getSelectionModel().select(seleccionado.getSexo());
-			tfCodigo.setText(emptyIfNull(seleccionado.getCodigo()));
-			
-			//DESHABILITO EL CAMPO DE LA CLAVE PRIMARIA AL EDITAR
-			tfCodigo.setDisable(true);
-			
-			tfNombre.setText(emptyIfNull(seleccionado.getNombre()));
-			tfRaza.setText(emptyIfNull(seleccionado.getRaza()));
-			tfEdad.setText(num2str(seleccionado.getEdad()));
-			tfPeso.setText(num2str(seleccionado.getPeso()));
-			taObservaciones.setText(emptyIfNull(seleccionado.getObservaciones()));
-			dpPrimeraConsulta.setValue(date2Local(seleccionado.getPrimeraConsulta()));
-			tvImagen.setImage(inputStream2Image(seleccionado.getFoto()));
-		} else {
-			cbSexo.getSelectionModel().selectFirst();				
-			cbEspecie.getSelectionModel().selectFirst();				
-		}
+    	try {
+    		if (seleccionado != null) {
+    			cbEspecie.getSelectionModel().select(seleccionado.getEspecie());
+    			cbSexo.getSelectionModel().select(seleccionado.getSexo());
+    			tfCodigo.setText(emptyIfNull(seleccionado.getCodigo()));
+    			
+    			//DESHABILITO EL CAMPO DE LA CLAVE PRIMARIA AL EDITAR
+    			tfCodigo.setDisable(true);
+    			
+    			tfNombre.setText(emptyIfNull(seleccionado.getNombre()));
+    			tfRaza.setText(emptyIfNull(seleccionado.getRaza()));
+    			tfEdad.setText(num2str(seleccionado.getEdad()));
+    			tfPeso.setText(num2str(seleccionado.getPeso()));
+    			taObservaciones.setText(emptyIfNull(seleccionado.getObservaciones()));
+    			dpPrimeraConsulta.setValue(date2Local(seleccionado.getPrimeraConsulta()));
+    			tvImagen.setImage(byte2Image(seleccionado.getFoto()));
+    		} else {
+    			cbSexo.getSelectionModel().selectFirst();				
+    			cbEspecie.getSelectionModel().selectFirst();				
+    		}
+    	} catch (AnimalesException e) {
+    		lanzarError(e);
+    	}
     }
 
 	@Override

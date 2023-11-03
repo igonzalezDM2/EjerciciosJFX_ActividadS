@@ -1,6 +1,5 @@
 package model;
 
-import java.io.InputStream;
 import java.util.Date;
 
 import enums.Sexo;
@@ -15,7 +14,7 @@ public class Animal {
 	private Double peso;
 	private String observaciones;
 	private Date primeraConsulta;
-	private InputStream foto;
+	private byte[] foto;
 	
 	public String getCodigo() {
 		return codigo;
@@ -80,10 +79,10 @@ public class Animal {
 		this.primeraConsulta = primeraConsulta;
 		return this;
 	}
-	public InputStream getFoto() {
+	public byte[] getFoto() {
 		return foto;
 	}
-	public Animal setFoto(InputStream foto) {
+	public Animal setFoto(byte[] foto) {
 		this.foto = foto;
 		return this;
 	}	

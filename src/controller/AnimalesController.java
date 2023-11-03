@@ -123,7 +123,7 @@ public class AnimalesController implements Initializable {
 			if (seleccionado != null) {
 				Alert alert = new Alert(AlertType.CONFIRMATION, "¿Desea borrar el animal seleccionado de la Base de Datos?", ButtonType.YES, ButtonType.NO);
 				Optional<ButtonType> decision = alert.showAndWait();
-				if (decision.isPresent() && ButtonType.OK.equals(decision.get())) {
+				if (decision.isPresent() && ButtonType.YES.equals(decision.get())) {
 					try {
 						DAOAnimales.borrarAnimal(seleccionado);
 						filtrarFilas();
@@ -225,6 +225,7 @@ public class AnimalesController implements Initializable {
 			ModificarEspecieController controlador = loader.getController();
 			
 			controlador
+			.setControladorPrincipal(this)
 			.setBorrar(borrar);
 			
 			Stage stage = new Stage();

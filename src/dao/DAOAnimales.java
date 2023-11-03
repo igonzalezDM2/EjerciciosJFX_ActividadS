@@ -2,6 +2,9 @@ package dao;
 
 import static utilities.Utilidades.sqlDate;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,7 +24,7 @@ public class DAOAnimales extends DAOBase{
 		try(Connection con = getConexion()) {
 			StringBuilder sb = new StringBuilder("SELECT "
 					+ "animal.codigo AS codigo, "
-					+ "animal.nombre AS nombre, "
+					+ "animal.nombre AS nombre_animal, "
 					+ "animal.especie AS id_especie, "
 					+ "animal.raza AS raza, "
 					+ "animal.sexo AS sexo, "
@@ -30,16 +33,16 @@ public class DAOAnimales extends DAOBase{
 					+ "animal.observaciones AS observaciones, "
 					+ "animal.primera_consulta AS primera_consulta, "
 					+ "animal.foto AS foto, "
-					+ "especie.nombre AS especie "
+					+ "especie.nombre AS nombre_especie "
 					+ "FROM animal\n"
 					+ "INNER JOIN especie ON especie.id = animal.especie");
 			
 			if (busqueda != null && !busqueda.isBlank()) {
 				sb.append("\n"
 						+ "WHERE LOWER(codigo) LIKE '%" + busqueda.toLowerCase() + "%' "
-						+ "OR LOWER(nombre) LIKE '%" + busqueda.toLowerCase() + "%' "
+						+ "OR LOWER(animal.nombre) LIKE '%" + busqueda.toLowerCase() + "%' "
 						+ "OR LOWER(raza) LIKE '%" + busqueda.toLowerCase() + "%' "
-						+ "OR LOWER(especie) LIKE '%" + busqueda.toLowerCase() + "%'");
+						+ "OR LOWER(especie.nombre) LIKE '%" + busqueda.toLowerCase() + "%'");
 			}
 			
 			Statement st = con.createStatement();
@@ -63,7 +66,7 @@ public class DAOAnimales extends DAOBase{
 		return getAnimales(null);
 	}
 	
-	public static void anadirAnimal(Animal animal) throws AnimalesException, SQLException {
+	public static void anadirAnimal(Animal animal) throws AnimalesException, SQLException, IOException {
 		if (animal != null && animal.getEspecie() != null && animal.getEspecie().getId() > 0) {
 			
 			String sql = "INSERT INTO animal ("
@@ -94,7 +97,13 @@ public class DAOAnimales extends DAOBase{
 					ps.setDouble(7, animal.getPeso());
 					ps.setString(8, animal.getObservaciones());
 					ps.setDate(9, sqlDate(animal.getPrimeraConsulta()));
-					ps.setBinaryStream(10, animal.getFoto());
+					if (animal.getFoto() != null) {						
+						try (InputStream is = new ByteArrayInputStream(animal.getFoto())) {						
+							ps.setBinaryStream(10, is);
+						}
+					} else {
+						ps.setBinaryStream(10, null);
+					}
 					
 					ps.executeUpdate();
 				}
@@ -111,7 +120,7 @@ public class DAOAnimales extends DAOBase{
 		}
 	}
 	
-	public static void modificarAnimal(Animal animal) throws AnimalesException, SQLException {
+	public static void modificarAnimal(Animal animal) throws AnimalesException, SQLException, IOException {
 		if (animal != null && animal.getEspecie() != null && animal.getEspecie().getId() > 0) {
 			
 			String sql = "UPDATE animal SET "
@@ -140,7 +149,13 @@ public class DAOAnimales extends DAOBase{
 					ps.setDouble(6, animal.getPeso());
 					ps.setString(7, animal.getObservaciones());
 					ps.setDate(8, sqlDate(animal.getPrimeraConsulta()));
-					ps.setBinaryStream(9, animal.getFoto());
+					if (animal.getFoto() != null) {						
+						try (InputStream is = new ByteArrayInputStream(animal.getFoto())) {						
+							ps.setBinaryStream(9, is);
+						}
+					} else {
+						ps.setBinaryStream(9, null);
+					}
 					ps.setString(10, animal.getCodigo());
 					
 					ps.executeUpdate();

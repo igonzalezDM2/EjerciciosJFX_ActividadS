@@ -20,4 +20,6 @@ CREATE TABLE `animal` (
 	foto MEDIUMBLOB DEFAULT NULL,
 	PRIMARY KEY (codigo),
 	CONSTRAINT fk_especie_animal FOREIGN KEY (`especie`) REFERENCES `especie`(`id`)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
 );
