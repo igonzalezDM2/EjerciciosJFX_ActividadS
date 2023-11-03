@@ -26,8 +26,9 @@ public class DAOEspecies extends DAOBase{
 				ps.executeUpdate();
 				ResultSet claves = ps.getGeneratedKeys();
 				if (claves.first()) {					
-					especie.setId(claves.getInt("id"));
+					especie.setId(claves.getInt(1));
 				}
+				con.commit();
 			} catch (SQLException e) {
 				con.rollback();
 				throw new AnimalesException(e);
@@ -48,6 +49,7 @@ public class DAOEspecies extends DAOBase{
 				ps.setString(1, especie.getNombre());
 				ps.setInt(2, especie.getId());
 				ps.executeUpdate();
+				con.commit();
 			} catch (SQLException e) {
 				con.rollback();
 				throw new AnimalesException(e);
@@ -67,6 +69,7 @@ public class DAOEspecies extends DAOBase{
 				PreparedStatement ps = con.prepareStatement(sql);
 				ps.setInt(1, especie.getId());
 				ps.executeUpdate();
+				con.commit();
 			} catch (SQLException e) {
 				con.rollback();
 				throw new AnimalesException(e);

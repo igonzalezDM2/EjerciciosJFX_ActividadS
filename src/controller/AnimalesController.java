@@ -74,12 +74,12 @@ public class AnimalesController implements Initializable {
 
     @FXML
     void anadirEspecie(ActionEvent event) {
-
+    	abrirAnadidorDeEspecie();
     }
 
     @FXML
     void borrarEspecie(ActionEvent event) {
-
+    	abrirEditorEspecie(true);
     }
 
     @FXML
@@ -89,7 +89,7 @@ public class AnimalesController implements Initializable {
 
     @FXML
     void editarEspecie(ActionEvent event) {
-    	
+    	abrirEditorEspecie();
     }
     
 	@Override
@@ -195,4 +195,52 @@ public class AnimalesController implements Initializable {
 			e.printStackTrace();
 		}
 	}
+	
+	private void abrirAnadidorDeEspecie() {
+		FlowPane root;
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AnadirEspecie.fxml"));
+			root = loader.load();
+			
+			Stage stage = new Stage();
+			stage.setTitle("AÑADIR ESPECIE");
+			stage.initModality(Modality.WINDOW_MODAL);
+			Scene scene = new Scene(root);
+			stage.setScene(scene);
+			stage.showAndWait();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void abrirEditorEspecie() {
+		abrirEditorEspecie(false);
+	}
+	
+	private void abrirEditorEspecie(boolean borrar) {
+		FlowPane root;
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/BorrarEspecie.fxml"));
+			root = loader.load();
+			ModificarEspecieController controlador = loader.getController();
+			
+			controlador
+			.setBorrar(borrar);
+			
+			Stage stage = new Stage();
+			if (borrar) {
+				stage.setTitle("BORRAR ESPECIE");
+			} else {
+				stage.setTitle("MODIFICAR ESPECIE");
+			}
+			stage.initModality(Modality.WINDOW_MODAL);
+			Scene scene = new Scene(root);
+			stage.setScene(scene);
+			stage.showAndWait();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 }

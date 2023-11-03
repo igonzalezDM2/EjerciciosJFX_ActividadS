@@ -146,4 +146,11 @@ public class Utilidades {
 		return null;
 	}
 	
+	public static java.sql.Date sqlDate(Date date) {
+		if (date != null) {			
+			return new java.sql.Date(date.getTime());
+		}
+		return null;
+	}
+	
 }

@@ -1,5 +1,7 @@
 package dao;
 
+import static utilities.Utilidades.sqlDate;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -74,7 +76,8 @@ public class DAOAnimales extends DAOBase{
 					+ "peso, "
 					+ "observaciones, "
 					+ "primera_consulta, "
-					+ "foto) VALUES (?,?,?,?,?,?,?,?,?)";
+					+ "foto) "
+					+ "VALUES (?,?,?,?,?,?,?,?,?,?)";
 			
 			Connection con = null;
 			try {
@@ -90,7 +93,8 @@ public class DAOAnimales extends DAOBase{
 					ps.setInt(6, animal.getEdad());
 					ps.setDouble(7, animal.getPeso());
 					ps.setString(8, animal.getObservaciones());
-					ps.setBinaryStream(9, animal.getFoto());
+					ps.setDate(9, sqlDate(animal.getPrimeraConsulta()));
+					ps.setBinaryStream(10, animal.getFoto());
 					
 					ps.executeUpdate();
 				}
@@ -111,15 +115,16 @@ public class DAOAnimales extends DAOBase{
 		if (animal != null && animal.getEspecie() != null && animal.getEspecie().getId() > 0) {
 			
 			String sql = "UPDATE animal SET "
-					+ "nombre = ? "
-					+ "especie = ? "
-					+ "raza = ? "
-					+ "sexo = ? "
-					+ "edad = ? "
-					+ "peso = ? "
-					+ "observaciones = ? "
-					+ "primera_consulta = ? "
-					+ "foto = ? WHERE CODIGO  = ?";
+					+ "nombre = ?, "
+					+ "especie = ?, "
+					+ "raza = ?, "
+					+ "sexo = ?, "
+					+ "edad = ?, "
+					+ "peso = ?, "
+					+ "observaciones = ?, "
+					+ "primera_consulta = ?, "
+					+ "foto = ? "
+					+ "WHERE CODIGO = ?";
 			
 			Connection con = null;
 			try {
@@ -134,8 +139,9 @@ public class DAOAnimales extends DAOBase{
 					ps.setInt(5, animal.getEdad());
 					ps.setDouble(6, animal.getPeso());
 					ps.setString(7, animal.getObservaciones());
-					ps.setBinaryStream(8, animal.getFoto());
-					ps.setString(9, animal.getCodigo());
+					ps.setDate(8, sqlDate(animal.getPrimeraConsulta()));
+					ps.setBinaryStream(9, animal.getFoto());
+					ps.setString(10, animal.getCodigo());
 					
 					ps.executeUpdate();
 				}

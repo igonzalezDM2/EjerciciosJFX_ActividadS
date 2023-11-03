@@ -23,10 +23,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
@@ -92,6 +89,7 @@ public class AnadirAnimalController implements Initializable {
     
     public AnadirAnimalController setSeleccionado(Animal animalSeleccionado) {
     	this.seleccionado = animalSeleccionado;
+    	rellenarEditor();
     	return this;
     }
 
@@ -112,8 +110,6 @@ public class AnadirAnimalController implements Initializable {
 			}
 			
 			controladorPrincipal.filtrarFilas();
-			Alert alert = new Alert(AlertType.INFORMATION, "El aeropuerto fue insertado", ButtonType.OK);
-			alert.show();
 			Utilidades.mostrarInfo("EL animal fue " + seleccionado != null ? "modificado" : "insertado");
 			Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 			stage.close();
@@ -126,7 +122,7 @@ public class AnadirAnimalController implements Initializable {
     @FXML
     void seleccionarImagen(ActionEvent event) {
     	FileChooser fc = new FileChooser();
-    	fc.getExtensionFilters().add(new ExtensionFilter("Imágenes JPG y PNG", Arrays.asList("jpg", "png")));
+    	fc.getExtensionFilters().add(new ExtensionFilter("Imágenes JPG y PNG", Arrays.asList("*.jpg", "*.png")));
     	File fichero = fc.showOpenDialog(((Node)event.getSource()).getScene().getWindow());
     	if (fichero != null) {
     		try {
@@ -187,7 +183,6 @@ public class AnadirAnimalController implements Initializable {
 		try {
 			cbEspecie.getItems().addAll(DAOEspecies.getEspecies().stream().sorted((e1, e2) -> e1.getNombre().compareTo(e2.getNombre())).toList());
 			cbSexo.getItems().addAll(Sexo.values());
-			rellenarEditor();
 		} catch (AnimalesException e) {
 			lanzarError(e);
 		}
